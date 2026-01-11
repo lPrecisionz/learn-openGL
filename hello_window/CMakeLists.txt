@@ -1,26 +1,37 @@
 cmake_minimum_required(VERSION 3.16)
-project(hello_window LANGUAGES CXX)
+project(hello_window LANGUAGES C CXX)
 
-set(CMAKE_CXX STANDARD 20)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(
-  hello_window src/main.cpp
+# GLAD (GLAD1 generated sources)
+add_library(glad STATIC external/glad/src/glad.c)
+target_include_directories(glad PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/glad/include
 )
 
-#OpenGL target (provides OpenGL::GL)
-find_package(OpenGL REQUIRED) # :contentReference]oaicite"2]{index=2}"
+# If you get linker errors related to dlopen/dlsym, keep this.
+target_link_libraries(glad PUBLIC dl)
 
-#GLFW (preferred)
+add_executable(hello_window
+    src/main.cpp
+)
+
+target_include_directories(hello_window PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+# OpenGL
+find_package(OpenGL REQUIRED)
+
+# GLFW
 find_package(glfw3 3.3 QUIET)
 
-if(glfw3_FOUND)
-  target_link_libraries(hello_window PRIVATE glfw OpenGL::GL)
+if (glfw3_FOUND)
+    target_link_libraries(hello_window PRIVATE glad glfw OpenGL::GL)
 else()
-  # Fallback : pkg-config
-  find_package(PkgConfig REQUIRED)
-  pkg_check_modules(GLFW REQUIRED glfw3)
-  target_include_directories(hello_window PRIVATE ${GLFW_INCLUDE_DIRS})
-  target_link_libraries(hello_window PRIVATE ${GLFW_LIBRARIES} OpenGL::GL)
-  target_link_directories(hello_glfw PRIVATE ${GLFW_LIBRARY_DIRS})
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(GLFW REQUIRED IMPORTED_TARGET glfw3)
+    target_link_libraries(hello_window PRIVATE glad PkgConfig::GLFW OpenGL::GL)
 endif()
+
