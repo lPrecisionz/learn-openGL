@@ -1,0 +1,21 @@
+// review notes
+
+my first read of "Hello Triangle" was really tough to grasp, I honestly don't understand most of it, but the code runs at least. 
+
+for my next session I must re-read "Hello Triangle" and thoroughly take notes of the following concepts: 
+
+  vertex; 
+  shader; 
+  graphics pipeline; 
+  vertex buffer object (vbo); 
+  fragment shader; 
+  shader program; 
+  Linking vertex attributes; 
+  vertex array object (vao);
+  element buffer objects (ebo)
+
+also try to make sense of the functions 
+  glBindBuffer(); 
+  glBufferData();
+  etc;
+
