@@ -19,3 +19,62 @@ also try to make sense of the functions
   glBufferData();
   etc;
 
+
+==================== graphics pipeline ====================
+  it's responsible for transforming all 3D coordinates to 2D pixels that fit on our screen, which is composed of 2 parts: 
+    - Transforming 3D coordinates in 2D coordinates
+    - Transforming 2d coordinates in colored pixels. 
+
+  there are several steps to producing the 2D colored pixels, and each of them is highly specialized, which can be executed in paralell.
+  this goes together with the fact that GPUS contain thousands of small processing cores to quickly process data within the pipeline.
+  these cores run small programs on the GPU for each step of the pipeline, which are called shaders.
+  some of these shaders are configurable by the developer, which gives us the ability to replace existing default shaders. We must make use of shaders to gain the benefits of reducing CPU strain through GPU usage. 
+  shaders in openGL are written in OpenGL shading language (GLSL). 
+
+  pipeline stages: 
+
+  vertex shader -> geometry shader -> shape assembly
+  tests/blending -> fragment shader -> rasterization
+
+
+
+==================== vertex ====================
+ a vertex is a collection of data per 3D coordinate. it can have any atribute we'd like, for the triangle example, we use a vertice (x,y,z) and a color.
+
+  openGL requires the information regarding what we wanna do with the collection of vertexes we provide them. Which primitive are they? 
+  some primitives are: 
+    GL_POINTS;
+    GL_TRIANGLES;
+    GL_LINE_STRIP;
+
+==================== vertex shader ====================
+
+the vertex shader is the first part of the pipeline. it receives a single vertex as input and transforms its 3D coordinates into different 3D coordinates (whatever that means)
+
+it allows for some basic processing on the vertex attributes.
+
+the output of the vertex shader is optionally passed to the geometry shader, which takes a collection of vertices that form a primitive and has the ability to generate other shapes by emitting new vertices to form new (or other) primitives. 
+
+==================== primitive assembly ====================
+
+this step of the pipeline can receive the vertices from the vertex or geometry shader (if geometry was skipped) that form one or more primitives and assembles all the points in the primitive shape given. 
+
+==================== rasterization ====================
+
+the rasterization stage maps the primitives the assembly sent it and maps it to the pixels on the screen, resulting in fragments for the fragment shader to use. 
+
+before the fragment shader can run, it performs 'clipping', which is the process of dropping everything that's out of view, increasing performance. 
+
+==================== fragment shader ====================
+
+TLDR: 
+  a fragment in openGL is all the data required for openGL to render a single pixel.
+
+the main purpose of the fragment shader is to calculate the final color of a pixel, it analyzes the 3D scene and checks lighting, shadows, etc, to define the current pixel's color.
+
+==================== alpha test / blending ====================
+
+this step consists in checking the depth/stencil value of the fragment and uses them to check if a fragment is in front or behind other objects, discarding them accordingly.
+it also checks for alpha values (opacity) to blend objects accordingly. 
+
+so the pixel output from the fragment shader can have a completely different color by the point blending is finished.
