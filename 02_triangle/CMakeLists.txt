@@ -15,6 +15,7 @@ target_link_libraries(glad PUBLIC dl)
 
 add_executable(triangle
     src/main.cpp
+    src/renderer.cpp
 )
 
 target_include_directories(triangle PRIVATE
