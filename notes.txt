@@ -78,3 +78,14 @@ this step consists in checking the depth/stencil value of the fragment and uses 
 it also checks for alpha values (opacity) to blend objects accordingly. 
 
 so the pixel output from the fragment shader can have a completely different color by the point blending is finished.
+
+==================== functions ====================
+
+glBindBuffer(buffer, object) -> binds a specified buffer into your object
+glBufferData(buffer, size, source, draw_kind) -> copies user-defined data into the currently bound buffer
+
+about draw_kind:
+  we can specify how we want the GPU to treat the data we're drawing. it can be: 
+    GL_STREAM_DRAW -> the data is set only once and used by the GPU only a few times
+    GL_STATIC_DRAW -> the data is set only once and use many times.
+    GL_DYNAMIC_DRAW -> the data is changed a ot and used many times. 

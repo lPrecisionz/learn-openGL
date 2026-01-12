@@ -114,12 +114,11 @@ int main(){
   glDeleteShader(vertex_shader);
   glDeleteShader(fragment_shader);
 
-  unsigned int VAO, VBO, EBO; 
-  glGenVertexArrays(1, &VAO);
+  unsigned int VBO, VAO, EBO; 
   glGenBuffers(1, &VBO);
-
+  glGenVertexArrays(1, &VAO);
   glGenBuffers(1, &EBO);
-    // 0. copy our vertices array in a buffer for openGL to use
+
   glBindVertexArray(VAO);
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
