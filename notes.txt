@@ -89,3 +89,27 @@ about draw_kind:
     GL_STREAM_DRAW -> the data is set only once and used by the GPU only a few times
     GL_STATIC_DRAW -> the data is set only once and use many times.
     GL_DYNAMIC_DRAW -> the data is changed a ot and used many times. 
+
+    glVertexAttribPointer() -> with this function , we can specify to OpenGL how to treat our vertex data in regards to our vertex data. How does our original array of vertices translate to the vec3 in our vertex shader? that's what we tell it.
+
+TLDR; a 'stride' is the space between consecutive vertex attributes.
+
+==================== functions ====================
+
+objects
+
+VBO -> Vertex Buffer Object
+  this object stores raw vertex data.
+
+VAO -> Vertex Array Object
+  - calls to glEnableVertexAttribArray() or glDisableVertexAttribArray()
+  - Vertex attribute configurations via glVertexAttribPointer()
+  - Vertex buffer objects associated with vertex attributes by calls to glVertexAttribPointer()
+
+EBO -> Element buffer Object
+  - similar to VBO, but stores indices of our vertice data so OpenGL can decide what vertices to draw.
+
+
+task for tomorrow:
+  - refactor the whole code for better modularity (i'll probably use classes) 
+  - do exercises 1, 2 and 3
