@@ -87,6 +87,23 @@ void Renderer::delete_shaders(){
   std::cout << "Deleted Shaders -\t" << "pedrin" << std::endl;
 }
 
+void Renderer::init_buffer(const BufferKind bk, float *arr, size_t stride){
+  unsigned int *curr_buffer = nullptr;
+
+  if(bk == BufferKind::VBO)
+    curr_buffer = &m_VBO;
+  
+  if(bk == BufferKind::EBO)
+    curr_buffer = &m_EBO;
+  
+  glGenBuffers(1, curr_buffer);
+  glBindBuffer(GL_ARRAY_BUFFER, *curr_buffer);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(&arr), &arr, GL_STATIC_DRAW);
+  //not sure what first arg is, second I figure it's vertex count
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
+  glEnableVertexAttribArray(0); // honestly just remember to init VAO Before this
+}
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height){
   glViewport(0,0,width,height);
 }

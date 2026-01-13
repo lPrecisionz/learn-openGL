@@ -6,13 +6,21 @@ namespace Prec{
 
 constexpr unsigned int LOCAL_VERSION = 3;
 
+enum BufferKind {
+  VBO, 
+  EBO
+};
+
 class Renderer{
 public:
   const char  *m_window_name;
   GLFWwindow  *m_window;
-  unsigned int m_vertex_shader;
-  unsigned int m_fragment_shader;
-  unsigned int m_shader_program;
+  unsigned int m_vertex_shader, 
+               m_fragment_shader, 
+               m_shader_program, 
+               m_VBO, 
+               m_EBO, 
+               m_VAO;
 
 public:
   Renderer() : m_window(nullptr) {};
@@ -21,6 +29,7 @@ public:
   void process_input();
   void init_shader(const int shader_kind, const char* src_path);
   void link_program();
+  void init_buffer(const BufferKind bk, float *arr, size_t stride);
   
 private: 
   const unsigned int base_width =  800; 

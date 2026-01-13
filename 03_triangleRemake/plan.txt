@@ -15,7 +15,7 @@ what do we need?
 how is the workflow? 
 
 - initialize window (done)
-- initialize shaders, compile them and link to shader program
+- initialize shaders, compile them and link to shader program (done)
 - initilize vao
 - initialize vbo and ebo, feed them raw vertice data, attach them to VAO (dont quite remember the order of things)
 - run loop (done)
@@ -42,6 +42,8 @@ class Renderer
   void init_window(char* window_name, int base_width, int base_height);
   void int init_shader(ShaderKind kind, const char* shader_source); // compiles, links? should probably break these up into even more functions
   void init_shader_program(); -> initializes shader program, links both shaders, might be a function that's called within init_shader
+  void init_buffer(); // initialize either VBO or EBO
+  void init_vertex_array();
 
 
 enum ShaderKind
