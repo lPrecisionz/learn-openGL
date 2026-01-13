@@ -1,6 +1,14 @@
-#include <iostream>
+#include "../include/renderer.hpp"
 
 int main(){
-  std::cout << "Hello, World" << std::endl;
-  return 0;
+    Prec::Renderer renderer;
+    renderer.init("my window");
+    
+    while (!glfwWindowShouldClose(renderer.m_window)){
+      renderer.process_input();
+      glfwSwapBuffers(renderer.m_window);
+      glfwPollEvents();
+    }
+
+    return 0;
 }

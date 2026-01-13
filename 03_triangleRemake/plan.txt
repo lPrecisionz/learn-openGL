@@ -14,16 +14,22 @@ what do we need?
 
 how is the workflow? 
 
-- initialize window
+- initialize window (done)
 - initialize shaders, compile them and link to shader program
 - initilize vao
 - initialize vbo and ebo, feed them raw vertice data, attach them to VAO (dont quite remember the order of things)
-- run loop
+- run loop (done)
 
 in the loop: 
   set a render color
   use shader program
   call draw for either VAO or VBO
+
+class App
+  Renderer m_renderer
+
+  run();
+  process_input();
 
 class Renderer
   glfwWindow m_window
