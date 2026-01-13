@@ -113,3 +113,41 @@ EBO -> Element buffer Object
 task for tomorrow:
   - refactor the whole code for better modularity (i'll probably use classes) 
   - do exercises 1, 2 and 3
+
+==================== shader stuff ====================
+
+vertex shader -> always receives raw vertice data as input
+fragment shader -> always gives a vec4 color output
+
+we can send data from one shader to another if we name the out variable of shader1 as the same as in variable of shader2. the linking handles this
+
+example: 
+
+we could define 
+
+out vec4 vertexColor;
+vertexColor = vec4(0.5, 0.0, 0.0, 1.0);
+
+on our vertex shader , and then have:
+
+in vec4 vertexColor;
+
+on our fragment shader
+
+==================== Uniforms ====================
+
+Uniforms are a way to send data from our application to the shader, for example, we could send a color to our fragment shader from within code.
+
+example: 
+shader:
+
+uniform vec4 our_color;
+
+code: 
+
+int vertex_color_location = glGetUniformLocation(shader_program, "ourColor");
+glUseProgram(shader_program);
+glUniform4f(vertex_color_location, 0.0f, 0.0f, 0.0f, 1.0f); -> pass in black color to our_color;
+
+TLDR;
+  we don't need to glUseProgram() to get the location of the uniform, but we do need it to set the attribute.
