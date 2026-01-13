@@ -34,17 +34,21 @@ void Renderer::process_input(){
   }
 }
 
-void Renderer::init_shader(const SHADER_KIND kind, const char* src_path){
+void Renderer::init_shader(const int shader_kind, const char* src_path){
   unsigned int *curr_shader = nullptr;
   unsigned int src_string_count = 1;
 
-  if(kind == GL_VERTEX_SHADER)
+  if(shader_kind == GL_VERTEX_SHADER){
     curr_shader = &m_vertex_shader;
+    std::cout << "Set vertex Shader." << std::endl;
+  }
   
-  if(kind == GL_FRAGMENT_SHADER)
+  if(shader_kind == GL_FRAGMENT_SHADER){
     curr_shader = &m_fragment_shader;
+    std::cout << "Set fragment Shader." << std::endl;
+  }
 
-  m_vertex_shader = glCreateShader(kind);
+  *curr_shader = glCreateShader(shader_kind);
   glShaderSource(*curr_shader, src_string_count, &src_path, NULL);
   glCompileShader(*curr_shader);
   

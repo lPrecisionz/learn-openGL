@@ -6,11 +6,6 @@ namespace Prec{
 
 constexpr unsigned int LOCAL_VERSION = 3;
 
-enum SHADER_KIND{
-  VERTEX   = GL_VERTEX_SHADER,
-  FRAGMENT = GL_FRAGMENT_SHADER
-};
-
 class Renderer{
 public:
   const char  *m_window_name;
@@ -24,8 +19,7 @@ public:
   ~Renderer();
   void init(const char* window_name);
   void process_input();
-  void init_shader(const SHADER_KIND kind, const char* src_path);
-  void init_fragment_shader(const char *src_path);
+  void init_shader(const int shader_kind, const char* src_path);
   void link_program();
   
 private: 

@@ -17,8 +17,8 @@ const char *fragment_shader_source = "#version 330 core\n"
 int main(){
     Prec::Renderer renderer;
     renderer.init("my window");
-    renderer.init_shader(Prec::VERTEX, vertex_shader_source);
-    renderer.init_shader(Prec::FRAGMENT, vertex_shader_source);
+    renderer.init_shader(GL_FRAGMENT_SHADER, fragment_shader_source);
+    renderer.init_shader(GL_VERTEX_SHADER, vertex_shader_source);
     renderer.link_program();
 
     while (!glfwWindowShouldClose(renderer.m_window)){
