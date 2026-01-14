@@ -151,3 +151,9 @@ glUniform4f(vertex_color_location, 0.0f, 0.0f, 0.0f, 1.0f); -> pass in black col
 
 TLDR;
   we don't need to glUseProgram() to get the location of the uniform, but we do need it to set the attribute.
+
+==================== Uniforms ====================
+
+we can apply KNN/linear filtering for both magnifying/minifying a texture, as well as the bounds between n mipmaps.
+
+DO NOT SET MIPMAP FILTERING TO MAGNIFYING TEXTURES
