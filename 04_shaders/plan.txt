@@ -56,3 +56,9 @@ class Shader
 
 
 - in a real scenario these would definitely be broken into more classes and we'd have openGL objects stored in some sort of data structure instead of having them being just one. but i'm hopeful that just structuring this the way I am will make things easier to improve upon afterwards.
+
+exercise 3 answer: 
+
+why is the bottom left side of the triangle black? 
+
+i think colors don't range from -1 to plus 1 such as coords. 
