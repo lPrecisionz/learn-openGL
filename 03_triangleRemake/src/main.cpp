@@ -13,10 +13,13 @@ const char *fragment_shader_source = "#version 330 core\n"
   "{\n"
   "FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
   "}\0";
+
 float vertices[] = {
-   0.0f, 0.0f, 0.0f, 
-   0.5f, 0.5f, 0.0f, 
-   1.0f, 0.0f, 0.0f
+    0.5f, 0.5f,  0.0f, //top
+    0.5f, -0.5f, 0.0f, //bottom left 
+    -0.5f, -0.5f, 0.0f,     
+
+    -0.5f, 0.5, 0.0f, 
 };
 
 unsigned int indices[] = {
@@ -24,32 +27,44 @@ unsigned int indices[] = {
   1, 2, 3
 };
 
+const unsigned int indice_count = 6;
+const unsigned int vertice_count = 3;
+
+void draw_triangle(Prec::Renderer &renderer, const unsigned int &vertice_count){
+  glUseProgram(renderer.m_shader_program);
+  glBindVertexArray(renderer.m_VAO);
+  glDrawArrays(GL_TRIANGLES, 0, vertice_count);
+  glBindVertexArray(0);
+}
+
+void draw_element(Prec::Renderer &renderer, const unsigned int &indice_count){
+  glUseProgram(renderer.m_shader_program);
+  glBindVertexArray(renderer.m_VAO);
+  glDrawElements(GL_TRIANGLES, indice_count, GL_UNSIGNED_INT, 0);
+  glBindVertexArray(0);
+}
+
 int main(){
-    Prec::Renderer renderer;
-    renderer.init("my window");
+  Prec::Renderer renderer;
+  renderer.init("my window");
+  renderer.init_shader(GL_VERTEX_SHADER, vertex_shader_source);
+  renderer.init_shader(GL_FRAGMENT_SHADER, fragment_shader_source);
+  renderer.link_program();
+  renderer.init_vao();
+  renderer.init_vbo(vertices, sizeof(vertices), sizeof(float) * 3); 
+  renderer.init_ebo(indices, sizeof(indices), sizeof(float) * 3); 
 
-    renderer.init_shader(GL_VERTEX_SHADER, vertex_shader_source);
-    renderer.init_shader(GL_FRAGMENT_SHADER, fragment_shader_source);
-    renderer.link_program();
+  while (!glfwWindowShouldClose(renderer.m_window)){
+    renderer.process_input();
 
-    renderer.init_vao();
-    renderer.init_buffer(GL_ARRAY_BUFFER, vertices, sizeof(vertices), sizeof(float) * 3); 
-    //renderer.init_buffer(GL_ELEMENT_ARRAY_BUFFER , indices, sizeof(float) * 3);
+    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 
-    //renderer.init_buffer(Prec::BufferKind::EBO, )
-    while (!glfwWindowShouldClose(renderer.m_window)){
-      renderer.process_input();
+    draw_element(renderer, indice_count);
 
-      glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-      glClear(GL_COLOR_BUFFER_BIT);
+    glfwSwapBuffers(renderer.m_window);
+    glfwPollEvents();
+  }
 
-      glUseProgram(renderer.m_shader_program);
-      glBindVertexArray(renderer.m_VAO);
-      glDrawArrays(GL_TRIANGLES, 0, 3);
-
-      glfwSwapBuffers(renderer.m_window);
-      glfwPollEvents();
-    }
-
-    return 0;
+  return 0;
 }
