@@ -1,4 +1,5 @@
 #include "../include/renderer.hpp"
+#include <math.h>
 
 const char *vertex_shader_source = "#version 330 core\n"
   "layout (location=0) in vec3 aPos;\n"
@@ -11,10 +12,10 @@ const char *vertex_shader_source = "#version 330 core\n"
 
 const char *fragment_shader_source = "#version 330 core\n"
   "out vec4 FragColor;\n"
-  "in vec4 vertex_color;\n"
+  "uniform vec4 our_color;\n"
   "void main()\n"
   "{\n"
-  "FragColor = vertex_color;\n"
+  "FragColor = our_color;\n"
   "}\0";
 
 float vertices[] = {
@@ -63,6 +64,9 @@ int main(){
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    float time_value = glfwGetTime();
+    float green_value = (std::sin(time_value) / 2.0f) + 0.5f;
+    renderer.set_uniform_color("our_color", 0.0, green_value, 0.0, 1.0);
     draw_element(renderer, indice_count);
 
     glfwSwapBuffers(renderer.m_window);

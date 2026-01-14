@@ -115,6 +115,13 @@ void Renderer::init_ebo(const unsigned int *indices, const size_t arr_size, cons
   
   std::cout << "Finished binding buffer -\t" << m_EBO << std::endl;
 }
+
+void Renderer::set_uniform_color(const char* uniform_name, float r, float g, float b, float a){
+  int vertex_color_location = glGetUniformLocation(m_shader_program, uniform_name);
+  glUseProgram(m_shader_program);
+  glUniform4f(vertex_color_location, r, g, b, a);
+}
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height){
   glViewport(0,0,width,height);
 }
