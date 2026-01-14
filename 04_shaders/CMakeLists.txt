@@ -16,6 +16,7 @@ target_link_libraries(glad PUBLIC dl)
 add_executable(shader
     src/main.cpp
     src/renderer.cpp
+    src/shader.cpp
 )
 
 target_include_directories(shader PRIVATE
