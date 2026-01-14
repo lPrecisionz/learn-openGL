@@ -27,13 +27,26 @@ unsigned int indices[] = {
 int main(){
     Prec::Renderer renderer;
     renderer.init("my window");
-    renderer.init_shader(GL_FRAGMENT_SHADER, fragment_shader_source);
+
     renderer.init_shader(GL_VERTEX_SHADER, vertex_shader_source);
+    renderer.init_shader(GL_FRAGMENT_SHADER, fragment_shader_source);
     renderer.link_program();
-    renderer.init_buffer(Prec::BufferKind::VBO, vertices, sizeof(float) * 3);
+
+    renderer.init_vao();
+    renderer.init_buffer(GL_ARRAY_BUFFER, vertices, sizeof(vertices), sizeof(float) * 3); 
+    //renderer.init_buffer(GL_ELEMENT_ARRAY_BUFFER , indices, sizeof(float) * 3);
+
     //renderer.init_buffer(Prec::BufferKind::EBO, )
     while (!glfwWindowShouldClose(renderer.m_window)){
       renderer.process_input();
+
+      glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+      glClear(GL_COLOR_BUFFER_BIT);
+
+      glUseProgram(renderer.m_shader_program);
+      glBindVertexArray(renderer.m_VAO);
+      glDrawArrays(GL_TRIANGLES, 0, 3);
+
       glfwSwapBuffers(renderer.m_window);
       glfwPollEvents();
     }

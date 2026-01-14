@@ -17,7 +17,7 @@ how is the workflow?
 - initialize window (done)
 - initialize shaders, compile them and link to shader program (done)
 - initilize vao
-- initialize vbo and ebo, feed them raw vertice data, attach them to VAO (dont quite remember the order of things)
+- initialize vbo and ebo, feed them raw vertice data, attach them to VAO (dont quite remember the order of things) - testing
 - run loop (done)
 
 in the loop: 
@@ -55,4 +55,4 @@ class Shader
   ShaderKind kind;
 
 
-- in a real scenario these would definitely be broken into more classes and we'd have openGL objects stored in some sort of data structure instead of having them being just one. 
+- in a real scenario these would definitely be broken into more classes and we'd have openGL objects stored in some sort of data structure instead of having them being just one. but i'm hopeful that just structuring this the way I am will make things easier to improve upon afterwards.

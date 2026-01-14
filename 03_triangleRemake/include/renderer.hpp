@@ -29,7 +29,8 @@ public:
   void process_input();
   void init_shader(const int shader_kind, const char* src_path);
   void link_program();
-  void init_buffer(const BufferKind bk, float *arr, size_t stride);
+  void init_vao();
+  void init_buffer(const int buffer_kind, const float *arr, const size_t arr_size, const size_t stride);
   
 private: 
   const unsigned int base_width =  800; 

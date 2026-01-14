@@ -17,9 +17,10 @@ void Renderer::init(const char* window_name){
   }
 
   glfwMakeContextCurrent(m_window);
-  if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+  if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
+    glfwTerminate();
     throw std::runtime_error("Failed to initialize GLAD.");
-  
+  }
   glViewport(0,0,base_width,base_height);
   glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
 }
@@ -87,21 +88,31 @@ void Renderer::delete_shaders(){
   std::cout << "Deleted Shaders -\t" << "pedrin" << std::endl;
 }
 
-void Renderer::init_buffer(const BufferKind bk, float *arr, size_t stride){
+void Renderer::init_vao(){
+  glGenVertexArrays(1, &m_VAO);
+  glBindVertexArray(m_VAO);
+  std::cout << "Binded vertex array -\t" << m_VAO << std::endl;
+}
+
+void Renderer::init_buffer(const int buffer_kind, const float *arr, const size_t arr_size, const size_t stride){
   unsigned int *curr_buffer = nullptr;
 
-  if(bk == BufferKind::VBO)
+  if(buffer_kind == GL_ARRAY_BUFFER){
     curr_buffer = &m_VBO;
+    std::cout << "Set GL_ARRAY_BUFFER" << std::endl;
+  }
   
-  if(bk == BufferKind::EBO)
+  if(buffer_kind == GL_ELEMENT_ARRAY_BUFFER)
     curr_buffer = &m_EBO;
   
   glGenBuffers(1, curr_buffer);
-  glBindBuffer(GL_ARRAY_BUFFER, *curr_buffer);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(&arr), &arr, GL_STATIC_DRAW);
+  glBindBuffer(buffer_kind, *curr_buffer);
+  glBufferData(buffer_kind, arr_size, arr, GL_STATIC_DRAW);
   //not sure what first arg is, second I figure it's vertex count
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
   glEnableVertexAttribArray(0); // honestly just remember to init VAO Before this
+  
+  std::cout << "Finished binding buffer -\t" << *curr_buffer << std::endl;
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height){
