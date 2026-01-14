@@ -94,23 +94,30 @@ void Renderer::init_vao(){
   std::cout << "Binded vertex array -\t" << m_VAO << std::endl;
 }
 
-void Renderer::init_vbo(const float *arr, const size_t arr_size, const size_t stride){
+void Renderer::init_vbo(const float *arr, const size_t arr_size, const size_t stride, const size_t offset){
   glGenBuffers(1, &m_VBO);
   glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
   glBufferData(GL_ARRAY_BUFFER, arr_size, arr, GL_STATIC_DRAW);
-  //not sure what first arg is, second I figure it's vertex count
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
-  glEnableVertexAttribArray(0); // honestly just remember to init VAO Before this
+
+  // pos attribute
+  unsigned int location = 0;
+  glVertexAttribPointer(location, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
+  glEnableVertexAttribArray(location);
+  //color
+  location = 1;
+  glVertexAttribPointer(location, 3, GL_FLOAT, GL_FALSE, stride, (void*)offset);
+
+  glEnableVertexAttribArray(location); // honestly just remember to init VAO Before this
   
   std::cout << "Finished binding buffer -\t" << m_VBO << std::endl;
 }
 
-void Renderer::init_ebo(const unsigned int *indices, const size_t arr_size, const size_t stride){
+void Renderer::init_ebo(const unsigned int *indices, const size_t arr_size, const size_t stride, const size_t offset){
   glGenBuffers(1, &m_EBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, arr_size, indices, GL_STATIC_DRAW);
   //not sure what first arg is, second I figure it's vertex count
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)(offset));
   glEnableVertexAttribArray(0); // honestly just remember to init VAO Before this
   
   std::cout << "Finished binding buffer -\t" << m_EBO << std::endl;

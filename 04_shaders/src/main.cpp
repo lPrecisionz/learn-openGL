@@ -3,27 +3,27 @@
 
 const char *vertex_shader_source = "#version 330 core\n"
   "layout (location=0) in vec3 aPos;\n"
-  "out vec4 vertex_color;"
+  "layout (location=1) in vec3 aColor;\n"
+  "out vec3 our_color;\n"
   "void main()\n"
   "{\n"
-  " vertex_color = vec4(1.0, 0.0, 0.0, 1.0);\n"
+  " our_color = aColor;\n"
   " gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
   "}\0";
 
 const char *fragment_shader_source = "#version 330 core\n"
   "out vec4 FragColor;\n"
-  "uniform vec4 our_color;\n"
+  "in vec3 our_color;\n"
   "void main()\n"
   "{\n"
-  "FragColor = our_color;\n"
+  "FragColor = vec4(our_color, 1.0);\n"
   "}\0";
 
 float vertices[] = {
-    0.5f, 0.5f,  0.0f, //top
-    0.5f, -0.5f, 0.0f, //bottom left 
-    -0.5f, -0.5f, 0.0f,     
-
-    -0.5f, 0.5, 0.0f, 
+    // spatial          // color
+    0.0f, 0.5f,  0.0f,  1.0f, 0.0f, 0.0f, //top
+    -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, //bottom left 
+    0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f
 };
 
 unsigned int indices[] = {
@@ -55,8 +55,8 @@ int main(){
   renderer.init_shader(GL_FRAGMENT_SHADER, fragment_shader_source);
   renderer.link_program();
   renderer.init_vao();
-  renderer.init_vbo(vertices, sizeof(vertices), sizeof(float) * 3); 
-  renderer.init_ebo(indices, sizeof(indices), sizeof(float) * 3); 
+  renderer.init_vbo(vertices, sizeof(vertices), sizeof(float) * 6, sizeof(float)*3); 
+  //renderer.init_ebo(indices, sizeof(indices), sizeof(float) * 3); 
 
   while (!glfwWindowShouldClose(renderer.m_window)){
     renderer.process_input();
@@ -64,10 +64,7 @@ int main(){
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    float time_value = glfwGetTime();
-    float green_value = (std::sin(time_value) / 2.0f) + 0.5f;
-    renderer.set_uniform_color("our_color", 0.0, green_value, 0.0, 1.0);
-    draw_element(renderer, indice_count);
+    draw_triangle(renderer, vertice_count);
 
     glfwSwapBuffers(renderer.m_window);
     glfwPollEvents();
