@@ -1,0 +1,64 @@
+my plan for rewriting the triangle exercise
+
+
+
+what do we need?
+
+- glfwWindow
+- vertex shader
+- fragment shader
+- shader program
+- vertex buffer object
+- vertex array object
+- element buffer object (i'll probably have to draw a rectangle for the texture exercise)
+
+how is the workflow? 
+
+- initialize window (done)
+- initialize shaders, compile them and link to shader program (done)
+- initilize vao
+- initialize vbo and ebo, feed them raw vertice data, attach them to VAO (dont quite remember the order of things) - testing
+- run loop (done)
+
+in the loop: 
+  set a render color
+  use shader program
+  call draw for either VAO or VBO
+
+class App
+  Renderer m_renderer
+
+  run();
+  process_input();
+
+class Renderer
+  glfwWindow m_window
+  shader m_vertex_shader
+  shader m_fragment_shader
+  unsigned int m_vbo
+  unsigned int m_vao
+  unsigned int m_ebo
+
+  void init_window(char* window_name, int base_width, int base_height);
+  void int init_shader(ShaderKind kind, const char* shader_source); // compiles, links? should probably break these up into even more functions
+  void init_shader_program(); -> initializes shader program, links both shaders, might be a function that's called within init_shader
+  void init_buffer(); // initialize either VBO or EBO
+  void init_vertex_array();
+
+
+enum ShaderKind
+  VERTEX
+  FRAGMENT
+
+class Shader
+  const char* source;
+  ShaderKind kind;
+
+
+- in a real scenario these would definitely be broken into more classes and we'd have openGL objects stored in some sort of data structure instead of having them being just one. but i'm hopeful that just structuring this the way I am will make things easier to improve upon afterwards.
+
+exercise 3 answer: 
+
+why is the bottom left side of the triangle black? 
+
+i think colors don't range from -1 to plus 1 such as coords. 
