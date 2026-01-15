@@ -17,7 +17,6 @@ add_executable(texture
     src/main.cpp
     src/renderer.cpp
     src/shader.cpp
-    src/stb_image.cpp
 )
 
 target_include_directories(texture PRIVATE

@@ -1,13 +1,17 @@
 #include "../include/renderer.hpp"
 #include <math.h>
 #include <ostream>
-#include "stb_image.cpp"
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "../include/stb_image.h"
+
 
 float vertices[] = {
-    // spatial          // color
-    0.0f, 0.5f,  0.0f,  1.0f, 0.0f, 0.0f, //top
-    -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, //bottom left 
-    0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f
+    // positions          // colors           // texture coords
+     0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+     0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+    -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
 };
 
 unsigned int indices[] = {
@@ -16,28 +20,47 @@ unsigned int indices[] = {
 };
 
 const unsigned int indice_count = 6;
-const unsigned int vertice_count = 3;
+const unsigned int vertice_count = 4;
+ 
 
 void draw_triangle(Prec::Renderer &renderer, const unsigned int &vertice_count){
   glUseProgram(renderer.m_shader->m_program_id);
-  glUseProgram(3);
   glBindVertexArray(renderer.m_VAO);
   glDrawArrays(GL_TRIANGLES, 0, vertice_count);
   glBindVertexArray(0);
 }
 
-void draw_element(Prec::Renderer &renderer, const unsigned int &indice_count){
+void draw_element(Prec::Renderer &renderer, const unsigned int &indice_count, const unsigned int &texture){
   glUseProgram(renderer.m_shader->m_program_id);
+  glBindTexture(GL_TEXTURE_2D, texture);
   glBindVertexArray(renderer.m_VAO);
   glDrawElements(GL_TRIANGLES, indice_count, GL_UNSIGNED_INT, 0);
   glBindVertexArray(0);
 }
 
-int main(){
-  // loading texture
-  int width, height, channels_no;
-  unsigned char* data = stbi_load("./img/container.jpg", &width, &height, &channels_no, 0);
+unsigned int gen_texture(const char* path){
+  int width, height, channel_no;
+  unsigned char* img_data = stbi_load("./img/container.jpg", &width, &height, &channel_no, 0);
+  if(!img_data){
+    std::cout << "Couldn't load image " << path << std::endl;
+    return 0;
+  }
 
+  unsigned int texture_id;
+  glGenTextures(1, &texture_id);
+  glBindTexture(GL_TEXTURE_2D, texture_id);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, img_data);
+  glGenerateMipmap(GL_TEXTURE_2D);
+
+  stbi_image_free(img_data);
+  return texture_id;
+}
+
+int main(){
   const char* vertex_shader_path   = "./shaders/vertex.glsl"; 
   const char* fragment_shader_path = "./shaders/fragment.glsl";
 
@@ -46,10 +69,13 @@ int main(){
   renderer.init_shader(vertex_shader_path, fragment_shader_path);
   renderer.init_vao();
 
-  size_t stride = sizeof(float) * 6;
+  unsigned int texture = gen_texture("./img/container.jpg");
+
+  size_t stride = sizeof(float) * 8;
   size_t offset = sizeof(float) * 3;
   renderer.init_vbo(vertices, sizeof(vertices), stride, offset); 
-  //renderer.init_ebo(indices, sizeof(indices), sizeof(float) * 3); 
+  renderer.init_ebo(indices, sizeof(indices), stride, 0); 
+
   std::cout << "Program :\t" << renderer.m_shader->m_program_id << std::endl
             << "VAO ID :\t"  << renderer.m_VAO << std::endl 
             << "VBO ID :\t"  << renderer.m_VBO << std::endl;
@@ -57,7 +83,7 @@ int main(){
   // exercise 2 - set h offset
   std::string uniform_name = "h_offset";
   renderer.m_shader->use();
-  renderer.m_shader->set_float(uniform_name, 0.5f);
+  renderer.m_shader->set_float(uniform_name, 0.0f);
 
   while (!glfwWindowShouldClose(renderer.m_window)){
     renderer.process_input();
@@ -65,7 +91,7 @@ int main(){
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    draw_triangle(renderer, vertice_count);
+    draw_element(renderer, indice_count, texture);
 
     glfwSwapBuffers(renderer.m_window);
     glfwPollEvents();

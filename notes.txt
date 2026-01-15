@@ -152,8 +152,20 @@ glUniform4f(vertex_color_location, 0.0f, 0.0f, 0.0f, 1.0f); -> pass in black col
 TLDR;
   we don't need to glUseProgram() to get the location of the uniform, but we do need it to set the attribute.
 
-==================== Uniforms ====================
+==================== Textures ====================
+
+Textures are have a coordinate system that goes from (0, 0) from bottom left to top right (1, 1). 
+
+For our shaders to map a texture to our vertexes, we must specify the points in which our form intersects with the texture points. So if we have a texture that goes from (0, 0) to (1, 1), we could map the points (0, 0) - bottom left; (0.5, 1) -> top middle ; (1, 0) -> bottom right to our triangle. 
+
+We specify these coordinates in the raw vertice array, then specify it as an input in our vertex shader, and then remember to update our VBO methods to map each attribute based on its location and the overall stride of the vertice array. 
+
+Textures also have some form of configuration you do after generating them. We can generate mipmaps, which are a sequence of halved textures so the GPU knows which one to use based on distances (optimization). 
+
+Some configuration we can do is specifying what the fragment shader (not sure if it's the fragment shader, but the logic is still relevant) should do when a given fragment doesn't properly match a 'pixel' in the texture. These can be either through nearest neighbour (just get the nearest color), or an interpolation (calculate the average color of pixels around the fragment). 
 
 we can apply KNN/linear filtering for both magnifying/minifying a texture, as well as the bounds between n mipmaps.
+
+I stil have something of a hard time understanding the 4 categories of mipmap configuration. Some review on that later. 
 
 DO NOT SET MIPMAP FILTERING TO MAGNIFYING TEXTURES
