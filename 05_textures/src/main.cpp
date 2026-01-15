@@ -7,10 +7,10 @@
 
 float vertices[] = {
   // positions          // colors           // texture coords (note that we changed them to 'zoom in' on our texture image)
-  0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   0.55f, 0.55f, // top right
-  0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   0.55f, 0.45f, // bottom right
-  -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.45f, 0.45f, // bottom left
-  -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.45f, 0.55f  // top left 
+  0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
+  0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
+  -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
+  -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
 };
 unsigned int indices[] = {
   0, 1, 3, 
@@ -96,9 +96,17 @@ int main(){
   renderer.m_shader->set_int("ourTexture_0", 0);
   renderer.m_shader->set_int("ourTexture_1", 1);
 
+  float mix_factor = 0;
   while (!glfwWindowShouldClose(renderer.m_window)){
     renderer.process_input();
-
+    if(glfwGetKey(renderer.m_window, GLFW_KEY_UP) == GLFW_PRESS){
+      mix_factor += 0.01;     
+    }
+    if(glfwGetKey(renderer.m_window, GLFW_KEY_DOWN) == GLFW_PRESS){
+      mix_factor -= 0.01;     
+    }
+    
+    renderer.m_shader->set_float("mix_factor", mix_factor);
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
