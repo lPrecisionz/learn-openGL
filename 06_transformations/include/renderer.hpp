@@ -10,11 +10,6 @@ namespace Prec{
 
 constexpr unsigned int LOCAL_VERSION = 3;
 
-enum BufferKind {
-  VBO, 
-  EBO
-};
-
 class Renderer{
 public:
   const char  *m_window_name;

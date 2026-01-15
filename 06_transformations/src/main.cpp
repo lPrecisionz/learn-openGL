@@ -72,16 +72,27 @@ unsigned int gen_texture(const char* path, const unsigned int tex_index){
   return texture_id;
 }
 
-void transform_vector(Prec::Shader &s){
+void transform_vector(Prec::Shader &s, glm::vec3 translation_vec){
   glm::mat4 trans = glm::mat4(1.0f);
-  trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0)); // create translate matrix that rotates by 90 degrees on the z axis
+  trans = glm::translate(trans, translation_vec); // create translate matrix that rotates by 90 degrees on the z axis
   trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-
   glUniformMatrix4fv(glGetUniformLocation(s.m_program_id, "transform"),
                      1, 
                      GL_FALSE, 
                      glm::value_ptr(trans)
                     );
+}
+
+void scale_vector(Prec::Shader &s, glm::vec3 translation_vec, glm::vec3 scale_vec){
+  glm::mat4 trans = glm::mat4(1.0f);
+  trans = glm::translate(trans, translation_vec); // create translate matrix that rotates by 90 degrees on the z axis
+  trans = glm::scale(trans, scale_vec);
+  glUniformMatrix4fv(glGetUniformLocation(s.m_program_id, "transform"),
+                     1, 
+                     GL_FALSE, 
+                     glm::value_ptr(trans)
+                    );
+
 }
 
 int main(){
@@ -115,7 +126,6 @@ int main(){
   float mix_factor = 0;
   while (!glfwWindowShouldClose(renderer.m_window)){
     renderer.process_input();
-    transform_vector(*renderer.m_shader);
     if(glfwGetKey(renderer.m_window, GLFW_KEY_UP) == GLFW_PRESS){
       mix_factor += 0.01;     
     }
@@ -127,8 +137,16 @@ int main(){
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    transform_vector(*renderer.m_shader, glm::vec3(0.5f, -0.5f, 0.0));
     draw_element(renderer, indice_count, texture0, texture1);
 
+    float scale = sin(glfwGetTime()) / 2;
+    scale_vector(*renderer.m_shader,glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(scale, scale, scale));
+    draw_element(renderer, indice_count, texture0, texture1);
+
+    scale_vector(*renderer.m_shader,glm::vec3(scale, 0.5f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+    draw_element(renderer, indice_count, texture0, texture1);
+    
     glfwSwapBuffers(renderer.m_window);
     glfwPollEvents();
   }
