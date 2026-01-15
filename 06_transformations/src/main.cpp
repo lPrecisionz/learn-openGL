@@ -1,4 +1,5 @@
 #include "../include/renderer.hpp"
+#include "shader.hpp"
 #include <math.h>
 #include <ostream>
 #include <glm/glm.hpp> 
@@ -71,19 +72,19 @@ unsigned int gen_texture(const char* path, const unsigned int tex_index){
   return texture_id;
 }
 
-void transform_vector(){
-  glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
+void transform_vector(Prec::Shader &s){
   glm::mat4 trans = glm::mat4(1.0f);
-  std::cout << vec.x << " " << vec.y << " " << vec.z << std::endl;
-  trans = glm::translate(trans, glm::vec3(1.0f, 1.0f, 0.0f));
-  vec = trans * vec;
-  std::cout << vec.x << " " << vec.y << " " << vec.z << std::endl;
+  trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0)); // create translate matrix that rotates by 90 degrees on the z axis
+  trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+
+  glUniformMatrix4fv(glGetUniformLocation(s.m_program_id, "transform"),
+                     1, 
+                     GL_FALSE, 
+                     glm::value_ptr(trans)
+                    );
 }
 
 int main(){
-  
-  transform_vector();
-  return 0;
   const char* vertex_shader_path   = "./shaders/vertex.glsl"; 
   const char* fragment_shader_path = "./shaders/fragment.glsl";
 
@@ -92,7 +93,7 @@ int main(){
   renderer.init_shader(vertex_shader_path, fragment_shader_path);
   renderer.init_vao();
 
-  unsigned int texture0 = gen_texture("./img/container.jpg", 0);
+  unsigned int texture0 = gen_texture("./img/clairo.jpg", 0);
   unsigned int texture1 = gen_texture("./img/awesomeface.png", 1);
 
   size_t stride = sizeof(float) * 8;
@@ -114,6 +115,7 @@ int main(){
   float mix_factor = 0;
   while (!glfwWindowShouldClose(renderer.m_window)){
     renderer.process_input();
+    transform_vector(*renderer.m_shader);
     if(glfwGetKey(renderer.m_window, GLFW_KEY_UP) == GLFW_PRESS){
       mix_factor += 0.01;     
     }

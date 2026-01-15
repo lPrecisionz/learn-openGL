@@ -95,12 +95,7 @@ void Shader::set_int(const std::string &name, int value) const{
 }
 
 void Shader::set_float(const std::string &name, float value) const{
-  std::cout << "Attempting to edit uniform " << std::endl 
-            << "Name:\t" << name.c_str() << std::endl 
-            << "Program Id:\t" << m_program_id << std::endl 
-            << "Value:\t" << value << std::endl;
-
-  glUniform1f(glGetUniformLocation(m_program_id, name.c_str()), value);
+   glUniform1f(glGetUniformLocation(m_program_id, name.c_str()), value);
 }
 
 void Shader::set_uniform_color(const char* uniform_name, float r, float g, float b, float a){
