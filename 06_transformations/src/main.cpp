@@ -71,9 +71,8 @@ const unsigned int vertice_count = 36;
 
 void draw_triangle(Prec::Renderer &renderer, const unsigned int &vertice_count){
   glUseProgram(renderer.m_shader->m_program_id);
-  glBindVertexArray(renderer.m_VAO);
   glDrawArrays(GL_TRIANGLES, 0, vertice_count);
-  glBindVertexArray(0);
+  glBindVertexArray(renderer.m_VAO);
 }
 
 void draw_element(Prec::Renderer &renderer, const unsigned int &indice_count, const unsigned int &texture0, const unsigned int &texture1){
@@ -168,16 +167,18 @@ int main(){
 
   renderer.m_shader->use();
   glm::mat4 model = glm::mat4(1.0f);
-  model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+  model = glm::rotate(model, glm::radians(-30.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
   glm::mat4 view = glm::mat4(1.0f);
-  view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+  view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
 
   glm::mat4 projection;
   projection = glm::perspective(glm::radians(45.0f), 800.0f/600.0f, 0.1f, 100.0f);
   float mix_factor = 0;
-  // Going 3D
-   while (!glfwWindowShouldClose(renderer.m_window)){
+
+  glEnable(GL_DEPTH_TEST);
+  while (!glfwWindowShouldClose(renderer.m_window)){
+    
     renderer.process_input();
     if(glfwGetKey(renderer.m_window, GLFW_KEY_UP) == GLFW_PRESS){
       mix_factor += 0.01;     
@@ -185,12 +186,13 @@ int main(){
     if(glfwGetKey(renderer.m_window, GLFW_KEY_DOWN) == GLFW_PRESS){
       mix_factor -= 0.01;     
     }
-    
+
     renderer.m_shader->set_float("mix_factor", mix_factor);
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    model = glm::rotate(model, glm::radians(1.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
+    renderer.m_shader->use();
     glUniformMatrix4fv(
       glGetUniformLocation(renderer.m_shader->m_program_id, "model"), 
       1, 

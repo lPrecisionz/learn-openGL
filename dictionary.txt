@@ -1,0 +1,23 @@
+Window Related Functions: 
+
+glfwInit();
+glfwTerminate();
+glfwWindowHint(); // set both minor and major versions to 3; set profile to core
+
+GLFWwindow* glfwCreateWindow(width, height, name, NULL, NULL) -> returns -1 if fail
+glfwMakeContextCurrent(window);
+gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) -> returns -1 if fail
+
+glViewport(x_start,y_start,width, height)
+void framebuffer_size_callback(window, width, height)
+glfwSetFramebufferSizeCallback(window, *func)
+
+bool glfwWindowShouldClose(window)
+glfwGetKey(window, glfw_key)
+glfwSwapBuffers(window)
+glfwPollEvents()
+
+glClearColor(vec3 color)
+glClear(flag0 | flag1) // something color buffer bit, also depth buffer if enabled
+
+

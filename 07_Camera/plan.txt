@@ -1,0 +1,49 @@
+overall pipeline: 
+  
+  1. Create Window
+  2. Initialize Shader Program
+  3. Initialize Vertex Array Object
+  4. Initialize Vertex Buffer Object
+  5. Initialize Element Buffer Object
+  6. Initialize Texture
+  7. Initialize Model Matrix
+  8. Initialize View Matrix
+  9. Initialize Perspective Matrix
+  10. Game Loop
+
+
+project structure: 
+
+Class App
+  static class -> run()
+
+Class Renderer
+  Window
+  Manage VAO, VBO, EBO
+  Manage shader programs
+  Manage Textures
+  Manage Matrixes '*' -> Will leave this for last, since it's still a bit clogged.
+
+Class Window -> might be too simple having a whole class for this. 
+  name
+  width
+  height
+  size_callback()
+  init()
+
+Class Shader -> worth splitting shaders ? each one being a single object. 
+  vertex shader
+  fragment shader
+  init()
+  use()
+  set_uniforms()
+
+Class Texture
+  ID
+  init()
+  read_from_file()
+
+Class VAO, VBO, EBO
+  ID
+  init()
+  bind();

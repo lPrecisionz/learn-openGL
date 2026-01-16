@@ -46,10 +46,10 @@ void Renderer::init_vao(){
 void Renderer::init_vbo(const float *arr, const size_t arr_size, const size_t stride, const size_t offset){
   glGenBuffers(1, &m_VBO);
   glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-  glBufferData(GL_ARRAY_BUFFER, arr_size, arr, GL_DYNAMIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, arr_size, arr, GL_STATIC_DRAW);
   // pos attribute
   unsigned int location = 0;
-  unsigned int attrib_count = 2;
+  unsigned int attrib_count = 3;
 
   glVertexAttribPointer(location, attrib_count, GL_FLOAT, GL_FALSE, stride, (void*)0);
   glEnableVertexAttribArray(location);
