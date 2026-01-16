@@ -8,7 +8,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../include/stb_image.h"
-
+/*
 float vertices[] = {
   // positions          // colors           // texture coords (note that we changed them to 'zoom in' on our texture image)
   0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
@@ -16,13 +16,57 @@ float vertices[] = {
   -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
   -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
 };
+
+*/float vertices[] = {
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+};
 unsigned int indices[] = {
   0, 1, 3, 
   1, 2, 3
 };
 
 const unsigned int indice_count = 6;
-const unsigned int vertice_count = 4;
+const unsigned int vertice_count = 36;
  
 
 void draw_triangle(Prec::Renderer &renderer, const unsigned int &vertice_count){
@@ -106,10 +150,10 @@ int main(){
   unsigned int texture0 = gen_texture("./img/clairo.jpg", 0);
   unsigned int texture1 = gen_texture("./img/awesomeface.png", 1);
 
-  size_t stride = sizeof(float) * 8;
+  size_t stride = sizeof(float) * 5;
   size_t offset = sizeof(float) * 3;
   renderer.init_vbo(vertices, sizeof(vertices), stride, offset); 
-  renderer.init_ebo(indices, sizeof(indices), stride, 0); 
+  //renderer.init_ebo(indices, sizeof(indices), stride, 0); 
 
   std::cout << "Program :\t" << renderer.m_shader->m_program_id << std::endl
             << "VAO ID :\t"  << renderer.m_VAO << std::endl 
@@ -145,6 +189,7 @@ int main(){
     renderer.m_shader->set_float("mix_factor", mix_factor);
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+    model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
     glUniformMatrix4fv(
       glGetUniformLocation(renderer.m_shader->m_program_id, "model"), 
@@ -164,9 +209,10 @@ int main(){
       GL_FALSE, 
       glm::value_ptr(projection)
     );
+    draw_triangle(renderer,vertice_count);
 
     //transform_vector(*renderer.m_shader, glm::vec3(0.5f, -0.5f, 0.0));
-    draw_element(renderer, indice_count, texture0, texture1);
+    //draw_element(renderer, indice_count, texture0, texture1);
 
 
     /*float scale = sin(glfwGetTime()) / 2;

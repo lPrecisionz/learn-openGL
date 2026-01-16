@@ -46,22 +46,22 @@ void Renderer::init_vao(){
 void Renderer::init_vbo(const float *arr, const size_t arr_size, const size_t stride, const size_t offset){
   glGenBuffers(1, &m_VBO);
   glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-  glBufferData(GL_ARRAY_BUFFER, arr_size, arr, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, arr_size, arr, GL_DYNAMIC_DRAW);
   // pos attribute
   unsigned int location = 0;
-  unsigned int attrib_count = 3;
+  unsigned int attrib_count = 2;
 
   glVertexAttribPointer(location, attrib_count, GL_FLOAT, GL_FALSE, stride, (void*)0);
   glEnableVertexAttribArray(location);
   //color
+  /*
   location = 1;
   glVertexAttribPointer(location, attrib_count, GL_FLOAT, GL_FALSE, stride, (void*)offset);
   glEnableVertexAttribArray(location); // honestly just remember to init VAO Before this
-  
-  attrib_count = 2;
+ */ 
   //texture
-  size_t texture_offset = 6 * sizeof(float);
-  location = 2;
+  size_t texture_offset = offset;
+  location = 1;
   glVertexAttribPointer(location, attrib_count, GL_FLOAT, GL_FALSE, stride, (void*)texture_offset);
   glEnableVertexAttribArray(location);
 
