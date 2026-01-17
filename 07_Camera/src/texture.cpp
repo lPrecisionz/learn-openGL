@@ -4,7 +4,8 @@
 
 namespace Precision{
 
-void Texture::init(const char *file_path, unsigned int tex_unit){
+void Texture::init(const char *file_path, const unsigned int tex_unit, const std::string sample_name){
+  m_sample_name = sample_name;
   img_data img = read_from_file(file_path);
 
   glGenTextures(1, &m_ID);

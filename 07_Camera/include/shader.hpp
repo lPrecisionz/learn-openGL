@@ -5,6 +5,7 @@
 #include <string.h> 
 #include <fstream>
 #include <sstream>
+#include "texture.hpp"
 namespace Precision{
 
 class Shader{
@@ -12,6 +13,7 @@ public:
   unsigned int m_program_id, 
                m_vertex, 
                m_fragment;
+  Texture m_texture;
 
 public:
   Shader() {};
@@ -20,6 +22,7 @@ public:
   void set_float(const char* uniform, float val); 
   void set_bool (const char* uniform, bool val);
   void use() { glUseProgram(m_program_id); }
+  void gen_texture(const char *file_path, const unsigned int unit, const std::string sampler_name);
 
 private:
   const std::string read_file(const char *path);

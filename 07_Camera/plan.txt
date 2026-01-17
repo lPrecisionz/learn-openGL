@@ -95,3 +95,5 @@ Textures
 
 read file into unsigned char* -> gen texture -> set parameters -> set sampler2D in fragshader to our texture's id (or index?)
 
+I'm pretty sure I'm making a mistake when attaching textures to a shader, I figure the most correct way would be for a shader to be decoupled from textures, but being able to map its units from a pool of textures that were generated separately.
+

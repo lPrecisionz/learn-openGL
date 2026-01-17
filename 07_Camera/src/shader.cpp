@@ -69,6 +69,11 @@ void Shader::link(){
   std::cout << "PROGRAM::LINKED::" << m_program_id << std::endl;
 }
 
+void Shader::gen_texture(const char *file_path, const unsigned int unit, const std::string sampler_name){
+  m_texture.init(file_path, unit, sampler_name);
+  set_int(sampler_name.c_str(), m_texture.m_ID);
+}
+
 void Shader::set_int  (const char* uniform, int val) {
   glUniform1i(glGetUniformLocation(m_program_id, uniform), val);
 }

@@ -24,6 +24,7 @@ void App::run(){
     sizeof(float) * 6, 
     triangle_data 
   );
+  renderer.m_shader.gen_texture("./img/clairo.jpg", 0, "texture1");
 
   while(!glfwWindowShouldClose(renderer.m_window.get_window())){
     glClearColor(0.5f, 0.2f, 0.3f, 1.0f);
