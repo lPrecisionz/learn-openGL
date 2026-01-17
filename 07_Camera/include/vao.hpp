@@ -6,10 +6,12 @@
 namespace Precision{
 
 struct vertex_attr_data {
-  unsigned int type;    // GL_FLOAT - GL_UNSIGNED_INT -- etc
-  unsigned int location;
-  size_t       attr_count,
-               offset;
+  unsigned int type, 
+               location,
+               attr_count;    // GL_FLOAT - GL_UNSIGNED_INT -- etc
+  size_t offset;
+
+  vertex_attr_data(unsigned int t, unsigned int loc, unsigned int ac, size_t off) : type(t), location(loc), attr_count(ac), offset(off) {};
 };
 
 class VAO {

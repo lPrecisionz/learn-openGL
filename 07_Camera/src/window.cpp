@@ -33,4 +33,8 @@ GLFWwindow *Window::get_window() {
   return m_window;
 }
 
+void check_error(){
+  std::cout << "glGetError()::" << glGetError() << std::endl;
+}
+
 } //namespace Precision
