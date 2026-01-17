@@ -20,7 +20,10 @@ public:
   void init_vao();
   // maybe have a function pointer to point to vao->init_vbo() ?
   void init_vbo(const float *arr, const size_t arr_size, const unsigned int draw_kind, const size_t stride, const std::vector<vertex_attr_data> attr_data);
+  void init_ebo(const unsigned int *arr, const size_t arr_size, const unsigned int draw_kind, const size_t stride);
   void draw_vbo(unsigned int mode, unsigned int start_index, unsigned int vertice_count);
+  void draw_ebo(unsigned int mode, unsigned int start_index, unsigned int indice_count);
+
 };
 
 }; // namespace Precision

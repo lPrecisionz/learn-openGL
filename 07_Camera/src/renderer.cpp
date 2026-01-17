@@ -22,9 +22,18 @@ void Renderer::init_vbo(const float *arr, const size_t arr_size, const unsigned 
   m_vao.init_vbo(arr, arr_size, draw_kind, stride, attr_data);
 }
 
+void Renderer::init_ebo(const unsigned int *arr, const size_t arr_size, const unsigned int draw_kind, const size_t stride){
+  m_vao.init_ebo(arr, arr_size, draw_kind, stride);
+}
+
 void Renderer::draw_vbo(unsigned int mode, unsigned int start_index, unsigned int vertice_count){
   m_shader.use();
-  glDrawArrays(GL_TRIANGLES, 0, vertice_count);
+  glDrawArrays(mode, 0, vertice_count);
+}
+
+void Renderer::draw_ebo(unsigned int mode, unsigned int start_index, unsigned int indice_count){
+  m_shader.use();
+  glDrawElements(mode, indice_count, GL_UNSIGNED_INT, 0);
 }
 
 } // namespace Precision

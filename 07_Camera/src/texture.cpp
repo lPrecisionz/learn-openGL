@@ -8,6 +8,17 @@ void Texture::init(const char *file_path, const unsigned int tex_unit, const std
   m_sample_name = sample_name;
   img_data img = read_from_file(file_path);
 
+  std::string path_string = file_path;
+  path_string = path_string.substr(path_string.size() - 3);
+  std::cout << "string end: " << path_string << std::endl;
+
+  unsigned int rgb_kind;
+  if(path_string == "jpg")
+    rgb_kind = GL_RGB;
+
+  if(path_string == "png")
+    rgb_kind = GL_RGB;
+
   glGenTextures(1, &m_ID);
   glActiveTexture(GL_TEXTURE0 + tex_unit);
   glBindTexture(GL_TEXTURE_2D, m_ID);
@@ -17,7 +28,7 @@ void Texture::init(const char *file_path, const unsigned int tex_unit, const std
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img.width, img.height, 0, GL_RGB, GL_UNSIGNED_BYTE, img.data);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img.width, img.height, 0, rgb_kind, GL_UNSIGNED_BYTE, img.data);
   glGenerateMipmap(GL_TEXTURE_2D);
 
   stbi_image_free(img.data);
@@ -28,6 +39,8 @@ img_data Texture::read_from_file(const char *file_path){
   int width {0}, 
       height {0}, 
       channels {0};
+  stbi_set_flip_vertically_on_load(true);
+
   unsigned char* data = stbi_load(file_path, &width, &height, &channels, 0);
   if(!data){
     std::cout << "TEXTURE::LOAD_IMG::ERROR" << std::endl;

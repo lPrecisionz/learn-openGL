@@ -20,6 +20,7 @@ add_executable(camera
     src/window.cpp
     src/shader.cpp
     src/vao.cpp
+    src/texture.cpp
 )
 
 target_include_directories(camera PRIVATE
