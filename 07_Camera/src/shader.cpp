@@ -5,17 +5,15 @@ namespace Precision{
 void Shader::init(const char* vertex_path, const char *fragment_path){
   std::string vertex_code   = read_file(vertex_path);
   std::string fragment_code = read_file(fragment_path);
-
   compile(GL_VERTEX_SHADER, vertex_code.c_str());
   compile(GL_FRAGMENT_SHADER, fragment_code.c_str());
+  link();
 }
   
 const std::string Shader::read_file(const char *path){
   std::string   shader_code; 
   std::ifstream shader_file;
-  
   shader_file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-
   try{
     shader_file.open(path);
     std::stringstream shader_stream;
@@ -51,6 +49,22 @@ void Shader::compile(unsigned int shader_kind, const char *source_code){
     return;
   }
   std::cout << "COMPILED::SHADER::" << *curr_shader << std::endl;
+}
+
+void Shader::link(){
+  m_program_id = glCreateProgram();
+  glAttachShader(m_program_id, m_vertex);
+  glAttachShader(m_program_id, m_fragment);
+  glLinkProgram(m_program_id);
+
+  int success; 
+  char log[512];
+  glGetProgramiv(m_program_id, GL_LINK_STATUS, &success);
+  if(!success){
+    glGetProgramInfoLog(m_program_id, 512, NULL, log);
+    std::cout << "PROGRAM::ERROR::LINKING" << std::endl << log;
+  }
+  std::cout << "PROGRAM::LINKED" << std::endl;
 }
 
 void Shader::set_int  (const char* uniform, int val) {}

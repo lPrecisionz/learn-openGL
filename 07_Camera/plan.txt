@@ -1,6 +1,6 @@
 overall pipeline: 
   
-  1. Create Window
+  1. Create Window                  -- done
   2. Initialize Shader Program
   3. Initialize Vertex Array Object
   4. Initialize Vertex Buffer Object
@@ -9,7 +9,7 @@ overall pipeline:
   7. Initialize Model Matrix
   8. Initialize View Matrix
   9. Initialize Perspective Matrix
-  10. Game Loop
+  10. Game Loop                     -- done
 
 
 project structure: 

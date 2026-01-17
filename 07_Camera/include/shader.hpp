@@ -16,10 +16,10 @@ public:
 public:
   Shader() {};
   void init(const char* vertex_path, const char *fragment_path);
-  void use() { glUseProgram(m_program_id); }
   void set_int  (const char* uniform, int val);
   void set_float(const char* uniform, int val); 
   void set_bool (const char* uniform, int val);
+  void use() { glUseProgram(m_program_id); }
 
 private:
   const std::string read_file(const char *path);
