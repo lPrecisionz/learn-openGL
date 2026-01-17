@@ -18,6 +18,7 @@ add_executable(camera
     src/app.cpp
     src/renderer.cpp
     src/window.cpp
+    src/shader.cpp
 )
 
 target_include_directories(camera PRIVATE

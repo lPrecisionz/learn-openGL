@@ -64,13 +64,19 @@ void Shader::link(){
     glGetProgramInfoLog(m_program_id, 512, NULL, log);
     std::cout << "PROGRAM::ERROR::LINKING" << std::endl << log;
   }
-  std::cout << "PROGRAM::LINKED" << std::endl;
+  std::cout << "PROGRAM::LINKED::" << m_program_id << std::endl;
 }
 
-void Shader::set_int  (const char* uniform, int val) {}
+void Shader::set_int  (const char* uniform, int val) {
+  glUniform1i(glGetUniformLocation(m_program_id, uniform), val);
+}
 
-void Shader::set_float(const char* uniform, int val) {}
+void Shader::set_float(const char* uniform, float val) {
+  glUniform1f(glGetUniformLocation(m_program_id, uniform), val);
+}
 
-void Shader::set_bool (const char* uniform, int val) {}
+void Shader::set_bool (const char* uniform, bool val) {
+  glUniform1i(glGetUniformLocation(m_program_id, uniform), static_cast<int>(val));
+}
 
 } // Shader
