@@ -7,9 +7,9 @@ namespace Precision {
 
 const float triangle[] = {
   // position          // color
-  -0.75f, -0.25f, 0.0f,  1.0f, 1.0f, 1.0f, // bottom left
-   0.0f,  0.75f, 0.0f,  1.0f, 1.0f, 1.0f, // top
-   0.75f,  -0.25f, -0.0f,  1.0f, 1.0f, 1.0f  // bottom right
+  -0.75f, -0.25f, 0.0f,  1.0f, 0.0f, 0.0f, // bottom left
+   0.0f,  0.75f, 0.0f,  0.0f, 1.0f, 0.0f, // top
+   0.75f,  -0.25f, -0.0f,  0.0f, 0.0f, 1.0f  // bottom right
 };
 
 // this is horrible, please fix it later

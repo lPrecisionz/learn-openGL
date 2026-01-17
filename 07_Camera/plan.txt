@@ -89,3 +89,9 @@ so I'd pass in a std::vector<vertex_attr_data> {
 for now I'll be restricting the data type of vertices to float. 
 
 for EBOs I'll use uints as always.
+
+
+Textures
+
+read file into unsigned char* -> gen texture -> set parameters -> set sampler2D in fragshader to our texture's id (or index?)
+

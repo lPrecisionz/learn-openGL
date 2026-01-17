@@ -17,8 +17,6 @@ void App::run(){
   renderer.init_window(WINDOW_NAME.c_str(), SCREEN_WIDTH, SCREEN_HEIGHT);
   renderer.init_shader(vertex_path, fragment_path);
   renderer.init_vao();
-  // THERE IS NO FUCKING WAY THIS IS GONNNA WORK
-  // OH MY FUCKING GOD IT WORKED
   renderer.init_vbo(
     triangle, 
     sizeof(triangle), 
@@ -30,6 +28,7 @@ void App::run(){
   while(!glfwWindowShouldClose(renderer.m_window.get_window())){
     glClearColor(0.5f, 0.2f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+
     renderer.draw_vbo(GL_TRIANGLES, 0, 3);
     glfwPollEvents();
     glfwSwapBuffers(renderer.m_window.get_window());
