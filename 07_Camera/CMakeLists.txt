@@ -16,6 +16,8 @@ target_link_libraries(glad PUBLIC dl)
 add_executable(camera
     src/main.cpp
     src/app.cpp
+    src/renderer.cpp
+    src/window.cpp
 )
 
 target_include_directories(camera PRIVATE

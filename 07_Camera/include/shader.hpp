@@ -1,0 +1,32 @@
+#ifndef SHADER_H
+#define SHADER_H
+
+#include "common.hpp"
+#include <string.h> 
+#include <fstream>
+#include <sstream>
+namespace Precision{
+
+class Shader{
+public:
+  unsigned int m_program_id, 
+               m_vertex, 
+               m_fragment;
+
+public:
+  Shader() {};
+  void init(const char* vertex_path, const char *fragment_path);
+  void use() { glUseProgram(m_program_id); }
+  void set_int  (const char* uniform, int val);
+  void set_float(const char* uniform, int val); 
+  void set_bool (const char* uniform, int val);
+
+private:
+  const std::string read_file(const char *path);
+  void compile(unsigned int shader_kind, const char *source_code);
+  void link();
+};
+
+} // namespace Precision
+
+#endif

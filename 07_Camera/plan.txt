@@ -47,3 +47,6 @@ Class VAO, VBO, EBO
   ID
   init()
   bind();
+
+
+-- starting to consider having a default empty constructor just so I don't have to heap allocate every single object of Renderer

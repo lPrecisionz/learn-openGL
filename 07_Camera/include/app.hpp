@@ -2,6 +2,7 @@
 #define APP_H
 
 #include <iostream> 
+#include "renderer.hpp"
 namespace Precision {
 
 class App{

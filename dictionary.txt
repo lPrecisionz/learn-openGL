@@ -21,3 +21,11 @@ glClearColor(vec3 color)
 glClear(flag0 | flag1) // something color buffer bit, also depth buffer if enabled
 
 
+Shader Related Functions: 
+
+glCreateShader(shader_kind) - GL_VERTEX_SHADER etc
+glShaderSource(ID, string_count, source, NULL)
+glCompileShader(ID)
+
+glGetShaderiv(ID, GL_COMPILE_STATUS, &int) -> sets &int to 0 if fail
+glGetShaderInfoLog(ID, 512, NULL, &char[512]) -> sets &char to info
