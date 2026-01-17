@@ -23,7 +23,7 @@ void Renderer::init_vbo(const float *arr, const size_t arr_size, const unsigned 
 }
 
 void Renderer::draw_vbo(unsigned int mode, unsigned int start_index, unsigned int vertice_count){
-  m_vao.bind();
+  m_shader.use();
   glDrawArrays(GL_TRIANGLES, 0, vertice_count);
 }
 
