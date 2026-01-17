@@ -8,6 +8,8 @@ void Shader::init(const char* vertex_path, const char *fragment_path){
   compile(GL_VERTEX_SHADER, vertex_code.c_str());
   compile(GL_FRAGMENT_SHADER, fragment_code.c_str());
   link();
+  glDeleteShader(m_vertex);
+  glDeleteShader(m_fragment);
 }
   
 const std::string Shader::read_file(const char *path){

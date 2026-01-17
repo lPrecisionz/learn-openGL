@@ -1,11 +1,11 @@
 #include "../include/app.hpp"
 namespace Precision{
 
-constexpr unsigned int SCREEN_WIDTH = 800; 
+constexpr unsigned int SCREEN_WIDTH  = 800; 
 constexpr unsigned int SCREEN_HEIGHT = 600;
-constexpr std::string WINDOW_NAME = "I love Clairo";
+constexpr std::string  WINDOW_NAME   = "I love Clairo";
 
-const char *vertex_path = "./shaders/vertex.glsl";
+const char *vertex_path   = "./shaders/vertex.glsl";
 const char *fragment_path = "./shaders/fragment.glsl";
 
 void App::run(){

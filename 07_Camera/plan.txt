@@ -1,7 +1,7 @@
 overall pipeline: 
   
   1. Create Window                  -- done
-  2. Initialize Shader Program
+  2. Initialize Shader Program      -- done
   3. Initialize Vertex Array Object
   4. Initialize Vertex Buffer Object
   5. Initialize Element Buffer Object
@@ -43,10 +43,49 @@ Class Texture
   init()
   read_from_file()
 
-Class VAO, VBO, EBO
-  ID
+Class VAO
+  m_ID
+  m_VBO
+  m_EBO
   init()
   bind();
 
+ObjectManager ?
+BufferObject  ?
+VertexManager ?
 
--- starting to consider having a default empty constructor just so I don't have to heap allocate every single object of Renderer
+or one for each as stated above? 
+
+single VAO class which will handle one VBO or EBO
+so if I need to draw drastically different objects, I instantiate a new VAO obj and do the object managing with it
+
+each VBO should contain a single vertex format, if you need multiple vertexes of that same format, just bind all of them into the same VBO.
+
+-- starting to consider having a default empty constructor just so I don't have to heap allocate every single object of Renderer -- done
+
+
+binding VBO dynamically pseudo code: 
+
+given an array of data for vertex info: 
+
+for each attribute in vertex
+  set current location
+  set current offset 
+  glVertexAttribPointer(location, attrib_count, GL_FLOAT_GL_FALSE, stride, offset)
+
+struct vertex_attr_data{ 
+  type = (float, uint);
+  location = 0; 
+  attr_count = type_count;
+  offset = sizeof(type) * attr_count;
+}
+
+so I'd pass in a std::vector<vertex_attr_data> {
+  {location = 0 ; attr_count = 3; offset = etc;}
+  {location = 1 ; attr_count = 3; offset = etc;}
+  {location = 2 ; attr_count = 2; offset = etc;}
+}
+
+for now I'll be restricting the data type of vertices to float. 
+
+for EBOs I'll use uints as always.
