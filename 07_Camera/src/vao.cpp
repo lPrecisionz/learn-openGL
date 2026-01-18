@@ -22,7 +22,7 @@ void VAO::init_vbo(const float *arr, const size_t arr_size, const unsigned int d
   std::cout << "VBO::BINDED::" << m_VBO << std::endl;
 }
 
-void VAO::init_ebo(const unsigned int *indice_arr, const size_t arr_size,const unsigned int draw_kind, const size_t stride){
+void VAO::init_ebo(const unsigned int *indice_arr, const size_t arr_size,const unsigned int draw_kind){
   bind();
   glGenBuffers(1, &m_EBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);

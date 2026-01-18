@@ -1,7 +1,7 @@
 #version 330 core
 
 in vec3 v_out_pos;
-in vec3 v_out_color;
+//in vec3 v_out_color;
 in vec2 v_out_tex_coord;
 
 uniform sampler2D texture1;

@@ -86,4 +86,17 @@ void Shader::set_bool (const char* uniform, bool val) {
   glUniform1i(glGetUniformLocation(m_program_id, uniform), static_cast<int>(val));
 }
 
+void Shader::set_mat4fv(const char* uniform, glm::mat4 &mat){
+
+  use();
+  unsigned int uni_location = glGetUniformLocation(m_program_id, uniform);
+
+  glUniformMatrix4fv(
+    uni_location, 
+    1, 
+    GL_FALSE, 
+    glm::value_ptr(mat)
+  );
+}
+
 } // Shader

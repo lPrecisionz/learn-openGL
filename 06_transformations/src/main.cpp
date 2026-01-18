@@ -119,11 +119,12 @@ void transform_vector(Prec::Shader &s, glm::vec3 translation_vec){
   glm::mat4 trans = glm::mat4(1.0f);
   trans = glm::translate(trans, translation_vec); // create translate matrix that rotates by 90 degrees on the z axis
   trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-  glUniformMatrix4fv(glGetUniformLocation(s.m_program_id, "transform"),
-                     1, 
-                     GL_FALSE, 
-                     glm::value_ptr(trans)
-                    );
+  glUniformMatrix4fv(
+    glGetUniformLocation(s.m_program_id, "transform"),
+    1, 
+    GL_FALSE, 
+    glm::value_ptr(trans)
+  );
 }
 
 void scale_vector(Prec::Shader &s, glm::vec3 translation_vec, glm::vec3 scale_vec){

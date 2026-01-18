@@ -24,7 +24,7 @@ public:
   VAO() {};
   void init();
   void init_vbo(const float *arr, const size_t arr_size, const unsigned int draw_kind, const size_t stride, const std::vector<vertex_attr_data> attr_data);
-  void init_ebo(const unsigned int *indice_arr, const size_t arr_size,const unsigned int draw_kind, const size_t stride);
+  void init_ebo(const unsigned int *indice_arr, const size_t arr_size,const unsigned int draw_kind);
   void bind();
 };
 
